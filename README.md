@@ -1,59 +1,60 @@
-# Angularlibapp
+### Angular library usage
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.6.
+#### Example Usage:
 
-## Development server
-
-To start a local development server, run:
-
+#### 1 create angular application
 ```bash
+ng new angular-library-app
+cd angular-library-app
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+#### 2 Create library under angular application
 ```bash
-ng generate component component-name
+ng generate library demolibrary
+ng g c home   // under library project add component to use in main angular application
+```
+#### 3 add home componet in angular app component and import the component path
+
+app.component.html file
+```html
+<lib-home></lib-home>
+<router-outlet />
+
+```
+app.component.ts file
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HomeComponent } from '../../projects/demolibrary/src/lib/home/home.component';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet, HomeComponent],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  title = 'angularlibapp';
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+#### 4 import main libary module to app.config.ts provider.
 
-```bash
-ng generate --help
-```
+app.config.ts file
+```typescript
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
 
-## Building
+import { routes } from './app.routes';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { DemolibraryComponent } from '../../projects/demolibrary/src/public-api';
 
-To build the project run:
+export const appConfig: ApplicationConfig = {
+  providers: [ DemolibraryComponent, provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideClientHydration(withEventReplay())]
+};
 
-```bash
-ng build
-```
+````
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This example demonstrates a basic Angular library with a simple home component. You can expand this by adding more services, components, directives, or pipes as needed for your specific use case.
