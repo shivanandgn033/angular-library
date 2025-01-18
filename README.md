@@ -2,19 +2,19 @@
 
 #### Example Usage:
 
-#### 1 create angular application
+#### 1 create angular application.
 ```bash
 ng new angular-library-app
 cd angular-library-app
 ng serve
 ```
 
-#### 2 Create library under angular application
+#### 2 Create library under angular application.
 ```bash
 ng generate library demolibrary
 ng g c home   // under library project add component to use in main angular application
 ```
-#### 3 add home componet in angular app component and import the component path
+#### 3 add home componet in angular app component and import the component path.
 
 app.component.html file
 ```html
